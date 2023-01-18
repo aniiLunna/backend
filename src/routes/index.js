@@ -14,6 +14,8 @@ router.post('/register', async (req, res) => {
         apellidoPaterno,
         apellidoMaterno,
         rfc,
+        curp,
+        sexo,
         email,
         password } = req.body;
     const newUser = new User({ 
@@ -21,6 +23,8 @@ router.post('/register', async (req, res) => {
         apellidoPaterno,
         apellidoMaterno,
         rfc,
+        curp,
+        sexo,
         email,
         password
     });
@@ -34,13 +38,17 @@ router.post('/register', async (req, res) => {
 
 })
 
+router.get('/users', async (req, res) => {
+    res.json(res)
+})
+
 router.post('/signin', async (req, res) => {
 
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
 
-    if(!user) return res.status(401).send("The email doesn't exist");
-    if(user.password !== password) return res.status(401).send("Wrong Password");
+    if(!user) return res.status(401).send("El email ingresado no se encuentra registrado");
+    if(user.password !== password) return res.status(401).send("La contraseña es incorrecta");
 
     const token = jwt.sign({ _id: user._id }, 'secretKey');
     return res.status(200).json({ token });
