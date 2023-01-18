@@ -9,11 +9,26 @@ const User = require('../models/user');
 router.get('/', (req, res) => res.send("Coveicydet"))
 
 router.post('/register', async (req, res) => {
-    const { email, password } = req.body;
-    const newUser = new User({ email, password});
+    const { 
+        nombre, 
+        apellidoPaterno,
+        apellidoMaterno,
+        rfc,
+        email,
+        password } = req.body;
+    const newUser = new User({ 
+        nombre,
+        apellidoPaterno,
+        apellidoMaterno,
+        rfc,
+        email,
+        password
+    });
     await newUser.save();
     
-    const token = jwt.sign({_id: newUser._id}, 'secretKey');
+    const token = jwt.sign({_id: newUser._id}, 'secretKey', {
+        expiresIn: 1800 //30 minutos
+    });
 
     res.status(200).json({token});
 

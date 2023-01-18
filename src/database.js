@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 
-var user = "admin";
-var pass = "SRBW1TgJfCgLyVOi";
+require('dotenv').config();
 
 mongoose.set('strictQuery', false)
-mongoose.connect('mongodb+srv://'+user+':'+pass+'@msc.xlj0pyh.mongodb.net/coveicydet', {
+mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true
 })
     .then(db => console.log('Database is Connected'))
